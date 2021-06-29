@@ -34,10 +34,11 @@ public class FileExtended extends File {
 		super(file.getAbsolutePath());
 		this.file = new File(file.getAbsolutePath());
 	}
-	
+
 	/**
 	 * Metoda kopiująca plik
-	 * @param sourceFile plik źródłowy
+	 * 
+	 * @param sourceFile      plik źródłowy
 	 * @param destenyFileName String ze ścieżką do pliku docelowego
 	 */
 	public FileExtended(File sourceFile, String destenyFileName) {
@@ -87,8 +88,10 @@ public class FileExtended extends File {
 
 	/**
 	 * Ma na celu policzyć wszystkie wydobyć ścieżki do wszystkich plików
+	 * 
 	 * @param extension rozszerzenie wyszukiwanych plików
-	 * @return LinkedHashMap String, String zawierająca ścieżki absolutne do wyszukanych plików
+	 * @return LinkedHashMap String, String zawierająca ścieżki absolutne do
+	 *         wyszukanych plików
 	 */
 	public LinkedHashMap<String, String> getFileMapByFileExtension(String extension) {
 		LinkedHashMap<String, String> map = new LinkedHashMap<>();
@@ -221,21 +224,18 @@ public class FileExtended extends File {
 		copyFile(destinationFile);
 	}
 
-	
-
-
-	  /**
+	/**
 	 * Metoda zwracająca nazwę pliku(jeśli pliki mają nazwy numerecze)
 	 * 
-	 * @param String  ścieżka do pliku
-	 * @param String rozszerzenie pliku 
+	 * @param String ścieżka do pliku
+	 * @param String rozszerzenie pliku
 	 * @return int
 	 * @throws IOException
 	 */
-	static int getHighestFileInFolder(String path , String extension) throws IOException {
+	static int getHighestFileInFolder(String path, String extension) throws IOException {
 		FileExtended fileExtended = new FileExtended(new File(path));
 		if (!fileExtended.isDirectory()) {
-			throw new IOException("Plik "+ path + " nie jest folderem");
+			throw new IOException("Plik " + path + " nie jest folderem");
 		}
 		File[] allContentsFile = fileExtended.getAbsoluteFile().listFiles();
 		FileExtended[] allContents = null;
@@ -261,6 +261,7 @@ public class FileExtended extends File {
 
 	/**
 	 * Metoda pobiera zwykły obiekt File
+	 * 
 	 * @return File
 	 */
 	public File getFile() {

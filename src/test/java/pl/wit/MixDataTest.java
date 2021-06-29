@@ -11,10 +11,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MixDataTest {
+	/**
+	 * currentDir zmienna do bieżącego folderu
+	 * 
+	 * workFolabsolutPathToWorkFolder zmienna gdzie zostaną przeprowadzone testy
+	 * 
+	 * sourcePathFolder zmienna skąd mają być kopiowane pliki
+	 * 
+	 * destinationPathToFolder folder dokąd mają być kopiowane pliki
+	 */
 	final String currentDir = System.getProperty("user.dir");
-	final String workPathMainFolder = currentDir + "/src/test/resources/Test";
-	final String sourcePathFolder = workPathMainFolder + "/source";
-	final String destinationPathToFolder = workPathMainFolder + "/destination";
+	final String workPathMainFolder = currentDir + FileExtended.separatorChar + "src" + FileExtended.separatorChar
+			+ "test" + FileExtended.separatorChar + "resources" + FileExtended.separatorChar + "Test";
+	final String sourcePathFolder = workPathMainFolder + FileExtended.separatorChar + "source";
+	final String destinationPathToFolder = workPathMainFolder + FileExtended.separatorChar + "destination";
 
 	@Before
 	public void setCatalog() throws IOException {
@@ -33,10 +43,9 @@ public class MixDataTest {
 		}
 		System.out.println();
 	}
-	
-	
+
 	@Test
-	public void  checkCreateFiles() throws IOException {
+	public void checkCreateFiles() throws IOException {
 		System.out.println("checkCreateFiles()");
 		String extension = "jpg";
 		FileExtended sourceFolder = new FileExtended(sourcePathFolder);
@@ -51,14 +60,14 @@ public class MixDataTest {
 		mixData.createDestinationFolders();
 		String fold = null;
 		int numberThreads = 2;
-		for(String folder:destinationStructure.getNames()) {
-			fold = destinationPathToFolder +"/" + folder;
-			mixData.createFiles(numberThreads,fold);
+		for (String folder : destinationStructure.getNames()) {
+			fold = destinationPathToFolder + "/" + folder;
+			mixData.createFiles(numberThreads, fold);
 		}
 		assertTrue(mixData.getK() == 3);
 		System.out.println();
 	}
-	
+
 	@After
 	public void cleanUp() {
 		System.out.println("cleanUp()");

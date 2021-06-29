@@ -15,20 +15,31 @@ import org.junit.After;
 import org.junit.Test;
 
 public class CounterMuliThreadTest {
+	/**
+	 * currentDir zmienna do bieżącego folderu
+	 * 
+	 * workFolabsolutPathToWorkFolder zmienna gdzie zostaną przeprowadzone testy
+	 * 
+	 * sourcePathFolder zmienna skąd mają być kopiowane pliki
+	 * 
+	 * destinationPathToFolder folder dokąd mają być kopiowane pliki
+	 * 
+	 * extension rozszerzenie pliku
+	 */
 	final String currentDir = System.getProperty("user.dir");
-	final String workPathMainFolder = currentDir + "/src/test/resources/Test";
-	final String sourcePathFolder = workPathMainFolder + "/source";
-	final String destinationPathToFolder = workPathMainFolder + "/destination";
+	final String workPathMainFolder = currentDir + FileExtended.separatorChar + "src" + FileExtended.separatorChar
+			+ "test" + FileExtended.separatorChar + "resources" + FileExtended.separatorChar + "Test";
+	final String sourcePathFolder = workPathMainFolder + FileExtended.separatorChar + "source";
+	final String destinationPathToFolder = workPathMainFolder + FileExtended.separatorChar + "destination";
 	final String extension = "jpg";
-	
-	
+
 	@Test
 	public void executorsThreadTest2() throws IOException {
 		System.out.println("executorsThreadTest2");
 		String extension = "jpg";
 		FileExtended sourceFolder = new FileExtended(sourcePathFolder);
 		LinkedHashMap<String, String> fileMapByFileExtension = sourceFolder.getFileMapByFileExtension(extension);
-		
+
 		System.out.println("Destination " + destinationPathToFolder);
 		FileExtended destinationFolder = new FileExtended(destinationPathToFolder);
 		if (!destinationFolder.exists()) {
@@ -38,22 +49,21 @@ public class CounterMuliThreadTest {
 				new HashSet<String>(fileMapByFileExtension.values()), destinationPathToFolder, extension);
 		MixData mixData = new MixData(fileMapByFileExtension, destinationStructure);
 		String folder = "2019-10-10";
-		List <String> filesToCreateInFolder = mixData.filesToCreateInFolderStream(folder);
-		
+		List<String> filesToCreateInFolder = mixData.filesToCreateInFolderStream(folder);
 
-		String destinationFolderDatePath = destinationPathToFolder + "/"+ folder;
+		String destinationFolderDatePath = destinationPathToFolder + FileExtended.separatorChar + folder;
 		FileExtended destinationFolderDate = new FileExtended(destinationFolderDatePath);
-		
+
 		System.out.println("destinationFolderDate " + destinationFolderDate);
 		if (destinationFolderDate.exists()) {
 			destinationFolderDate.deleteDirectory();
 		}
 		destinationFolderDate.mkdir();
-		
 		ExecutorService es = Executors.newFixedThreadPool(10);
 		int k = 0;
 		for (int i = 0; i < filesToCreateInFolder.size(); i++) {
-			es.execute(new CounterMultiThread(filesToCreateInFolder.get(i), destinationFolderDatePath, destinationStructure, i + 1));
+			es.execute(new CounterMultiThread(filesToCreateInFolder.get(i), destinationFolderDatePath,
+					destinationStructure, i + 1));
 			k++;
 		}
 		es.shutdown();
@@ -72,8 +82,9 @@ public class CounterMuliThreadTest {
 	}
 
 	/**
-	 * Metoda znaleziona w internecie w celu usunięcia rekursywnego folderu roboczego
-	 * https://www.baeldung.com/java-delete-directory
+	 * Metoda znaleziona w internecie w celu usunięcia rekursywnego folderu
+	 * roboczego https://www.baeldung.com/java-delete-directory
+	 * 
 	 * @param File directoryToBeDeleted główny katalog który ma zostać usunięty
 	 * @return boolean
 	 */
@@ -88,8 +99,8 @@ public class CounterMuliThreadTest {
 	}
 
 	/**
-	 * Metoda napisana na podsawie metody deleteDirectory
-	 * Ma na celu policzyć wszystkie pliki w podanym folderze i podfolderów
+	 * Metoda napisana na podsawie metody deleteDirectory Ma na celu policzyć
+	 * wszystkie pliki w podanym folderze i podfolderów
 	 * 
 	 * @param directory położenie folderu głównego
 	 * @return
@@ -109,7 +120,7 @@ public class CounterMuliThreadTest {
 		}
 		return i;
 	}
-	
+
 	@After
 	public void cleanUp() {
 		System.out.println("cleanUp()");

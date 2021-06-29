@@ -32,16 +32,20 @@ public class CounterMultiThread implements Runnable {
 	 */
 	private final int number;
 
-	public CounterMultiThread(String sourceFilePath, String destinationPath, DestinationStructure destinationStructure) {
+	public CounterMultiThread(String sourceFilePath, String destinationPath,
+			DestinationStructure destinationStructure) {
 		this.sourceFilePath = sourceFilePath;
-		this.destinationFolderPath = destinationStructure.getDestination() + "/" + destinationPath;
+		this.destinationFolderPath = destinationStructure.getDestination() + FileExtended.separatorChar
+				+ destinationPath;
 		this.extension = destinationStructure.getExtension();
 		this.number = 0;
 	}
-	
-	public CounterMultiThread(String sourceFilePath, String destinationPath, DestinationStructure destinationStructure, int number) {
+
+	public CounterMultiThread(String sourceFilePath, String destinationPath, DestinationStructure destinationStructure,
+			int number) {
 		this.sourceFilePath = sourceFilePath;
-		this.destinationFolderPath = destinationStructure.getDestination() + "/" +  destinationPath;
+		this.destinationFolderPath = destinationStructure.getDestination() + FileExtended.separatorChar
+				+ destinationPath;
 		this.extension = destinationStructure.getExtension();
 		this.number = number;
 	}
@@ -61,11 +65,10 @@ public class CounterMultiThread implements Runnable {
 	}
 
 	/**
-	 * 	/**
-	 * Metoda zwracająca nazwę nowego pliku
+	 * /** Metoda zwracająca nazwę nowego pliku
 	 * 
 	 * @param directotry nazwa katalogu w którym powinna zostać utworzona
-	 * @param extension rozszerzenie pliku
+	 * @param extension  rozszerzenie pliku
 	 * @return pełna ścieżka do nowego pliku
 	 */
 	public synchronized String getNewFileName(String directotry, String extension) {
@@ -107,7 +110,7 @@ public class CounterMultiThread implements Runnable {
 		synchronized (CounterMultiThread.mapFolders) {
 			fileName = getNewFileName(this.destinationFolderPath, extension);
 		}
-		String fileToCreatePath = this.destinationFolderPath + "/" + fileName;
+		String fileToCreatePath = this.destinationFolderPath + FileExtended.separatorChar + fileName;
 		FileExtended fileToCreate = new FileExtended(fileToCreatePath);
 		FileExtended source = new FileExtended(this.sourceFilePath);
 		try {

@@ -18,11 +18,16 @@ public class FileExtendedTest {
 	 * currentDir zmienna do bieżącego folderu
 	 * 
 	 * workFolabsolutPathToWorkFolder zmienna gdzie zostaną przeprowadzone testy
+	 * 
+	 * sourcePathFolder zmienna skąd mają być kopiowane pliki
+	 * 
+	 * destinationPathToFolder folder dokąd mają być kopiowane pliki
 	 */
 	final String currentDir = System.getProperty("user.dir");
-	final String workPathMainFolder = currentDir + "/src/test/resources/Test";
-	final String sourcePathFolder = workPathMainFolder + "/source";
-	final String destinationPathToFolder = workPathMainFolder + "/destination";
+	final String workPathMainFolder = currentDir + FileExtended.separatorChar + "src" + FileExtended.separatorChar
+			+ "test" + FileExtended.separatorChar + "resources" + FileExtended.separatorChar + "Test";
+	final String sourcePathFolder = workPathMainFolder + FileExtended.separatorChar + "source";
+	final String destinationPathToFolder = workPathMainFolder + FileExtended.separatorChar + "destination";
 
 	@Before
 	public void setCatalog() throws IOException {
@@ -68,8 +73,9 @@ public class FileExtendedTest {
 	@Test
 	public void checkGetExtension() {
 		System.out.println("checkGetExtension()");
-		String extension = "txt".toLowerCase();;
-		String filePath = sourcePathFolder + "/podkatalog/Plik.txt";
+		String extension = "txt".toLowerCase();
+		String filePath = sourcePathFolder + FileExtended.separatorChar + "podkatalog" + FileExtended.separatorChar
+				+ "Plik.txt";
 		FileExtended file = new FileExtended(filePath);
 		assertTrue(file.exists());
 		assertTrue(file.getExtension().equals(extension));
@@ -80,7 +86,8 @@ public class FileExtendedTest {
 	public void checkIsProperExtension() {
 		System.out.println("checkIsProperExtension()");
 		String extension = "txt";
-		String filePath = sourcePathFolder + "/podkatalog/Screenshot_20180504_235342.png";
+		String filePath = sourcePathFolder + FileExtended.separatorChar + "podkatalog" + FileExtended.separatorChar
+				+ "Screenshot_20180504_235342.png";
 		FileExtended file = new FileExtended(filePath);
 		assertTrue(file.exists());
 		assertFalse(file.isPropertyExtension(extension));
@@ -98,8 +105,9 @@ public class FileExtendedTest {
 	@Test
 	public void checkCopyFolder() {
 		System.out.println("checkCopyFolder()");
-		String sourceFilePath = sourcePathFolder + "/podkatalog/Screenshot_20180504_235342.png";
-		String destinationFilePath = destinationPathToFolder + "/dest.png";
+		String sourceFilePath = sourcePathFolder + FileExtended.separatorChar + "podkatalog"
+				+ FileExtended.separatorChar + "Screenshot_20180504_235342.png";
+		String destinationFilePath = destinationPathToFolder + FileExtended.separatorChar + "dest.png";
 		FileExtended sourceFile = new FileExtended(sourceFilePath);
 		FileExtended destinationFile = new FileExtended(destinationFilePath);
 		try {
@@ -134,7 +142,8 @@ public class FileExtendedTest {
 		FileExtended dateFolder;
 		Set<String> dateSet = new HashSet<String>(fileMapByFileExtension.values());
 		for (String item : dateSet) {
-			dateFolder = new FileExtended(destinationPathToFolder + "/" + item + "/");
+			dateFolder = new FileExtended(
+					destinationPathToFolder + FileExtended.separatorChar + item + FileExtended.separatorChar);
 			if (!dateFolder.exists()) {
 				dateFolder.mkdir();
 			}
@@ -145,11 +154,12 @@ public class FileExtendedTest {
 	@Test
 	public void checkGetFileNameAsNumber() {
 		System.out.println("checkGetFileNameAsNumber()");
-		String filePath = sourcePathFolder + "/pod/pod2/wisla_krakow.jpg";
+		String filePath = sourcePathFolder + FileExtended.separatorChar + "pod" + FileExtended.separatorChar + "pod2"
+				+ FileExtended.separatorChar + "wisla_krakow.jpg";
 		FileExtended file = new FileExtended(filePath);
 		assertTrue(file.exists());
 		assertTrue(file.getFileNameAsNumber() == -1);
-		filePath = sourcePathFolder + "/podkatalog/1.txt";
+		filePath = sourcePathFolder + FileExtended.separatorChar + "podkatalog" + FileExtended.separatorChar + "1.txt";
 		file = new FileExtended(filePath);
 		assertTrue(file.exists());
 		assertTrue(file.getFileNameAsNumber() == 1);
@@ -160,7 +170,7 @@ public class FileExtendedTest {
 	public void checkGetLastFileInFolder() throws IOException {
 		System.out.println("checkGetLastFileInFolder");
 		System.out.println(sourcePathFolder);
-		String path = sourcePathFolder + "/podkatalog";
+		String path = sourcePathFolder + FileExtended.separatorChar + "podkatalog";
 		int i = FileExtended.getHighestFileInFolder(path, "txt");
 		assertTrue(i == 3);
 	}

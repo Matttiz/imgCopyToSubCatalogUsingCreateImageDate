@@ -16,10 +16,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class DestinationStructureTest {
+	/**
+	 * currentDir zmienna do bieżącego folderu
+	 * 
+	 * workFolabsolutPathToWorkFolder zmienna gdzie zostaną przeprowadzone testy
+	 * 
+	 * sourcePathFolder zmienna skąd mają być kopiowane pliki
+	 * 
+	 * destinationPathToFolder folder dokąd mają być kopiowane pliki
+	 */
 	final String currentDir = System.getProperty("user.dir");
-	final String workPathMainFolder = currentDir + "/src/test/resources/Test";
-	final String sourcePathFolder = workPathMainFolder + "/source";
-	final String destinationPathToFolder = workPathMainFolder + "/destination";
+	final String workPathMainFolder = currentDir + FileExtended.separatorChar + "src" + FileExtended.separatorChar
+			+ "test" + FileExtended.separatorChar + "resources" + FileExtended.separatorChar + "Test";
+	final String sourcePathFolder = workPathMainFolder + FileExtended.separatorChar + "source";
+	final String destinationPathToFolder = workPathMainFolder + FileExtended.separatorChar + "destination";
 
 	@Before
 	public void setCatalog() throws IOException {
@@ -129,7 +139,8 @@ public class DestinationStructureTest {
 		}
 		DestinationStructure destinationStructure = new DestinationStructure(
 				new HashSet<String>(fileMapByFileExtension.values()), destinationPathToFolder, extension);
-		LinkedHashMap<String, Integer> folderAndHighestFileMap = destinationStructure.getFolderAndHighestFileWithExtenionMap();
+		LinkedHashMap<String, Integer> folderAndHighestFileMap = destinationStructure
+				.getFolderAndHighestFileWithExtenionMap();
 		Set<String> folders = folderAndHighestFileMap.keySet();
 		Iterator<String> it = folders.iterator();
 		String folder = null;
@@ -158,10 +169,12 @@ public class DestinationStructureTest {
 		assertTrue(!destinationFolder.exists());
 		System.out.println();
 	}
-	
+
 	private void creatTwoFileOneByFolder() throws IOException {
-		String firstPathFileToCreate = destinationPathToFolder +"/2017-01-31/1.txt";
-		String secondPathFileToCreate = destinationPathToFolder +"/2019-10-10/1.txt";
+		String firstPathFileToCreate = destinationPathToFolder + FileExtended.separatorChar + "2017-01-31"
+				+ FileExtended.separatorChar + "1.txt";
+		String secondPathFileToCreate = destinationPathToFolder + FileExtended.separatorChar + "2019-10-10"
+				+ FileExtended.separatorChar + "1.txt";
 		FileExtended firstFileToCreate = new FileExtended(firstPathFileToCreate);
 		FileExtended secondFileToCreate = new FileExtended(secondPathFileToCreate);
 		firstFileToCreate.createNewFile();

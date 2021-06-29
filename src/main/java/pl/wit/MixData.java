@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 
 /**
- * Klasa zawierająca nazwę z folderami, jakie należy utworzyć oraz listą plików do skopiowania
+ * Klasa zawierająca nazwę z folderami, jakie należy utworzyć oraz listą plików
+ * do skopiowania
+ * 
  * @author matti
  *
  */
@@ -29,7 +31,8 @@ public class MixData {
 	}
 
 	/**
-	 * metoda zwracająca listę plików do skopiowania na podstawie daty utworzenia 
+	 * metoda zwracająca listę plików do skopiowania na podstawie daty utworzenia
+	 * 
 	 * @param folder data utworzenia pliku
 	 * @return zwraca listę plików utworzonych danego dnia
 	 * @throws IOException problemy wynikające ze streamem
@@ -41,20 +44,24 @@ public class MixData {
 	}
 
 	/**
-	 * Kopiuje pliki z miejsca źródłowego do miejsca docelowego poprawnie je nazywając
-	 * @param numberThreads liczba wątków
+	 * Kopiuje pliki z miejsca źródłowego do miejsca docelowego poprawnie je
+	 * nazywając
+	 * 
+	 * @param numberThreads     liczba wątków
 	 * @param destinationFolder folder docelowy
 	 * @throws IOException if folder doesn't exist
 	 */
 	public void createFiles(int numberThreads, String destinationFolder) throws IOException {
 		List<String> filesToCreateInFolderStream = new ArrayList<String>();
-		String folderWithDateName = destinationFolder.substring(destinationFolder.lastIndexOf('/')+1);
+		String folderWithDateName = destinationFolder.substring(destinationFolder.lastIndexOf('/') + 1);
 		filesToCreateInFolderStream = this.filesToCreateInFolderStream(folderWithDateName);
 		ExecutorService es = Executors.newFixedThreadPool(numberThreads);
 		for (int i = 0; i < filesToCreateInFolderStream.size(); i++) {
-			// Zmodyfikowałem kreator by wypisywać numer wątku
-			es.execute(
-					new CounterMultiThread(filesToCreateInFolderStream.get(i), folderWithDateName, this.getDestinationStructure(), k + 1));
+			/**
+			 *  Zmodyfikowałem kreator by wypisywać numer wątku
+			 */
+			es.execute(new CounterMultiThread(filesToCreateInFolderStream.get(i), folderWithDateName,
+					this.getDestinationStructure(), k + 1));
 			k++;
 		}
 		es.shutdown();
